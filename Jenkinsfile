@@ -9,9 +9,9 @@ pipeline {
         }
         stage('DockerHub Push'){
             steps{
-               withCredentials([string(credentialsId: 'sree-dockerpwd', variable: 'sample')]) {
+               withCredentials([string(credentialsId: 'gkdockerpwd', variable: 'gksample')]) {
                     sh "sudo docker login -u gowthamgk -p ${sample}"
-                    sh "sudo docker push samplegk-app:${BUILD_ID}"
+                    sh "sudo docker push gowthamgk/samplegk:${BUILD_ID}"
                 }
             }
         }
@@ -24,26 +24,18 @@ pipeline {
          sh "gcloud config set compute/region us-central1"
          sh "gcloud container clusters get-credentials cluster-1 --zone us-central1-c --project mssdevops-284216"			
           /**frontend **/			
-	  sh "sed -i -e 's,image_to_be_deployed,'srinivasareddy4218/movies-app:${BUILD_ID}',g' frontend/deployment/frontend-deployment.yaml"
-	  sh " kubectl apply -f frontend/deployment/frontend-deployment.yaml -n msslabs"
+	  sh "sed -i -e 's,image_to_be_deployed,'gowthamgk/samplegk:${BUILD_ID}',g' mysql-deployment.yaml"
+	  sh " kubectl apply -f mysql-deployment.yaml -n gksample"
+          
+          sh "sed -i -e 's,image_to_be_deployed,'gowthamgk/samplegk:${BUILD_ID}',g' mysql-service.yaml"
+	  sh " kubectl apply -f mysql-service.yaml -n gksample"
+		 
+	  sh "sed -i -e 's,image_to_be_deployed,'gowthamgk/samplegk:${BUILD_ID}',g' testapp-deployment.yaml"
+	  sh " kubectl apply -f testapp-deployment.yaml -n gksample"
+		 
+          sh "sed -i -e 's,image_to_be_deployed,'gowthamgk/samplegk:${BUILD_ID}',g' testapp-service.yaml"
+	  sh " kubectl apply -f testapp-service.yaml -n gksample"		 
          
-          sh "sed -i -e 's,image_to_be_deployed,'srinivasareddy4218/movies-app:${BUILD_ID}',g' frontend/deployment/frontend-service.yaml"
-	  sh " kubectl apply -f frontend/deployment/frontend-service.yaml -n msslabs"
-	
-	/** Backend **/
-          sh "sed -i -e 's,image_to_be_deployed,'srinivasareddy4218/movies-app:${BUILD_ID}',g' backend/deployment/backend-deployment.yaml"
-	   sh " kubectl apply -f backend/deployment/backend-deployment.yaml -n msslabs"
-			
-           sh "sed -i -e 's,image_to_be_deployed,'srinivasareddy4218/movies-app:${BUILD_ID}',g' backend/deployment/backend-service.yaml"
-	   sh " kubectl apply -f backend/deployment/backend-service.yaml -n msslabs"
-      
-	  /** database **/
-			
-	  sh "sed -i -e 's,image_to_be_deployed,'srinivasareddy4218/movies-app:${BUILD_ID}',g' database/deployment/database-deployment.yaml"
-          sh " kubectl apply -f database/deployment/database-deployment.yaml -n msslabs"
-			
-          sh "sed -i -e 's,image_to_be_deployed,'srinivasareddy4218/movies-app:${BUILD_ID}',g' database/deployment/database-service.yaml" 
-	  sh " kubectl apply -f database/deployment/database-service.yaml -n msslabs"
 	
       }
 
