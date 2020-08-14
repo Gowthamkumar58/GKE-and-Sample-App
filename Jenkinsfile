@@ -4,7 +4,7 @@ pipeline {
      stages{
         stage('Build Docker Image'){
             steps{
-                sh "sudo docker build . -t gowthamgk/samplegk-app:${BUILD_ID} "
+                sh "sudo docker build . -t gowthamgk/samplegk:${BUILD_ID} "
             }
         }
         stage('DockerHub Push'){
