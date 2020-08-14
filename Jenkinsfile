@@ -10,7 +10,7 @@ pipeline {
         stage('DockerHub Push'){
             steps{
                withCredentials([string(credentialsId: 'gkdockerpwd', variable: 'gksample')]) {
-                    sh "sudo docker login -u gowthamgk -p ${sample}"
+                    sh "sudo docker login -u gowthamgk -p ${gksample}"
                     sh "sudo docker push gowthamgk/samplegk:${BUILD_ID}"
                 }
             }
