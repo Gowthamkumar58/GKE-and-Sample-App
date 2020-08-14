@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: test-app
-        image: ajaynemade/pymy:latest
-        imagePullPolicy: IfNotPresent
+        image: gowthamgk/samplegk:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
