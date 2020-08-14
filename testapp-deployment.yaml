@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: test-app
-        image: gowthamgk/samplegk:latest
+        image: pbuggaveeti/pysample:1.0
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
